@@ -128,7 +128,7 @@ function Assistant({ e }: { e: Equity }) {
   )
 }
 export function DeskPage({ page }: { page: string }) {
-  const { desk, compact } = useDesk(),
+  const { desk, compact, matrixToggle } = useDesk(),
     [ticker, T] = useState("AAPL"),
     [scenario, S] = useState(0),
     [order, O] = useState("Gainers first")
@@ -149,7 +149,7 @@ export function DeskPage({ page }: { page: string }) {
           "Research desk / " +
           (page === "settings" ? "Preferences" : "Workspace")
         }
-        title={title}
+        title={({markets:'Markets Overview',financials:'Financial Statements',filings:'SEC Filings',earnings:'Earnings Calendar',macro:'Macro Economy',watchlist:'Watchlist',portfolio:'Portfolio Tracker',ai:'AI Research Console',reports:'Report Generation',settings:'Settings'} as Record<string,string>)[page]||title}
       >
         {desc}
       </Intro>
@@ -287,6 +287,7 @@ export function DeskPage({ page }: { page: string }) {
           </Link>
         </Panel>
       )}
+      {page === "portfolio" && <Panel title="Decision Matrix" tag="Saved research">{desk.matrix.length?desk.matrix.map(t=><div key={t} className="listrow"><Link className="link" to={'/company/'+t}>{t} · {byTicker(t)?.name}</Link><button className="pill" onClick={()=>matrixToggle(t)}>Remove</button></div>):<p>No companies added. <Link className="link" to="/company/AAPL">Open the Apple thesis →</Link></p>}</Panel>}
       {page === "portfolio" && (
         <Panel tag="Paper portfolio · fixed example" title={money(total)}>
           {holdings.map((h) => (

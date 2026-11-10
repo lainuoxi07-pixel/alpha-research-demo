@@ -27,6 +27,7 @@ function useModel() {
   return {
     desk,
     persisted,
+    matrixToggle: (ticker:string)=>set(x=>({...x,matrix:x.matrix.includes(ticker)?x.matrix.filter(t=>t!==ticker):[...x.matrix,ticker]})),
     toggle: (ticker: string) =>
       set((x) => ({
         ...x,

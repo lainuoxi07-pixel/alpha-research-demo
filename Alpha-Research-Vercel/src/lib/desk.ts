@@ -97,8 +97,9 @@ export const money = (v: number) =>
   v.toLocaleString("en-US", { style: "currency", currency: "USD" })
 export const pct = (v: number) => (v > 0 ? "+" : "") + v.toFixed(2) + "%"
 export type Note = { id: string; ticker: string; body: string }
-export type Desk = { watch: string[]; notes: Note[]; compact: boolean }
+export type Desk = { matrix: string[]; watch: string[]; notes: Note[]; compact: boolean }
 export const initial: Desk = {
+  matrix: [],
   watch: ["AAPL", "MSFT"],
   notes: [],
   compact: false,
@@ -109,6 +110,7 @@ export function restore(raw: string | null): Desk {
     const v = JSON.parse(raw || "null")
     if (!v || !Array.isArray(v.watch) || !Array.isArray(v.notes)) return initial
     return {
+      matrix: Array.isArray(v.matrix) ? v.matrix.filter((s:unknown)=>typeof s==='string' && byTicker(s)) : [],
       watch: [
         ...new Set<string>(
           v.watch.filter((s: unknown) => typeof s === "string" && byTicker(s)),

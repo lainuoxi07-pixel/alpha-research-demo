@@ -1,0 +1,23 @@
+/* Only mounted on newly implemented routes. The original views use index.css unmodified. */
+.feature {
+  .intro h1 {font:700 clamp(2.125rem,3vw,2.625rem)/1.12 var(--font-display);letter-spacing:-.024em;margin:.5rem 0;}
+  .kicker,.axis {font:11px var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-foreground)}
+  .panel {border:1px solid var(--border);border-radius:var(--radius);background:var(--card);padding:1.5rem;margin:1rem 0}
+  .panel h2 {font:700 1.4rem var(--font-display);margin:.4rem 0 1rem}
+  .panel h3 {font-size:1.1rem;margin-top:.8rem}
+  p,small,.muted {color:var(--muted-foreground);line-height:1.6}
+  .row,.listrow,.axis,.metrics {display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  .entry,.holding,.listrow {padding:1rem 0;border-bottom:1px solid var(--border)}
+  .entry p {white-space:pre-wrap;overflow-wrap:anywhere}
+  .pill,.primary,.tabs button,.picker select,select,textarea,.find {border:1px solid var(--border);border-radius:6px;padding:.5rem .8rem;background:var(--background);font-size:.875rem}
+  button:enabled,select {cursor:pointer} button:disabled{opacity:.5}
+  .pill,.find {display:inline-flex;align-items:center;gap:.4rem}
+  .primary,.tabs button[aria-pressed=true],.pill.on {background:var(--secondary)}
+  a:hover,.link,.back,.textbtn{text-decoration:underline;text-underline-offset:3px}
+  .tabs,.picker,.controls,.noteform {display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin:.8rem 0}
+  .noteform label:not(.picker),textarea {width:100%} textarea {display:block;min-height:90px}
+  .table-wrap{overflow-x:auto} table{width:100%;text-align:left} td,th{padding:.7rem;border-bottom:1px solid var(--border);font-size:.85rem} &.compact td{padding:.35rem}
+  .company small,.listrow small,.metrics b {display:block} .up {color:#4ade80}.down {color:#f87171}
+  .spark{width:100%;height:90px}.bars{display:flex;align-items:end;gap:2rem}.bars i{display:block;background:var(--muted-foreground);width:2.5rem}.holding progress{width:100%;height:6px}
+  .twocol {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:1rem}
+}

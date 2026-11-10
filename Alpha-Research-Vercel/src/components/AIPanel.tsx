@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Bot, X, Send, Sparkles } from 'lucide-react';
+import { equities } from '../lib/desk';
 import { cn } from '../lib/utils';
 
 export function AIPanel() {
@@ -8,6 +9,14 @@ export function AIPanel() {
     { role: 'assistant', content: 'How can I help with your financial research today?' }
   ]);
   const [input, setInput] = useState('');
+
+  function send(){
+    const prompt=input.trim(); if(!prompt)return;
+    const words=prompt.toLowerCase().split(/[^a-z0-9]+/);
+    const symbol=equities.find(e=>words.includes(e.ticker.toLowerCase())||words.includes(e.name.toLowerCase()));
+    const response=symbol ? (/risk|bear|downside/i.test(prompt)?symbol.risk:/revenue|financial/i.test(prompt)?'Sample quarterly revenue (USD billions): '+symbol.revenue.join(', '):symbol.bull+' '+symbol.cue) : 'Choose AAPL, MSFT, NVDA, GOOGL or TSLA and ask about its thesis, risk or revenue.';
+    setMessages(prev=>[...prev,{role:'user',content:prompt},{role:'assistant',content:'Demo brief · '+response}]);setInput('');
+  }
 
   if (!isOpen) {
     return (
@@ -51,24 +60,11 @@ export function AIPanel() {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about companies, markets..."
             className="flex-1 bg-transparent border-none focus:outline-none px-4 text-sm"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && input.trim()) {
-                setMessages([...messages, { role: 'user', content: input }]);
-                setInput('');
-                setTimeout(() => {
-                  setMessages(prev => [...prev, { role: 'assistant', content: 'Analyzing the data... (This is a frontend demo).' }]);
-                }, 1000);
-              }
-            }}
+            onKeyDown={(e) => { if(e.key==='Enter' && !e.nativeEvent.isComposing) send() }}
           />
           <button 
             className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0"
-            onClick={() => {
-              if (input.trim()) {
-                setMessages([...messages, { role: 'user', content: input }]);
-                setInput('');
-              }
-            }}
+            onClick={send}
           >
             <Send className="w-4 h-4 ml-[-2px]" />
           </button>
